@@ -36,29 +36,28 @@ const upload = multer({storage})
 
 app.use(express.json())//позволит читать файлы json
 app.use(cors(corsOptions))
-app.post(cors(corsOptions))
-app.get(cors(corsOptions))
-app.use('/uploads',express.static('uploads')) //если придет запрос на uploads, то ищи в папке uploads (static- получение GET запроса на статичный файл)
 
-app.post('/auth/login',  loginValidation, handleValidationErrors, UserController.login); 
+app.use('/uploads', cors(corsOptions), express.static('uploads')) //если придет запрос на uploads, то ищи в папке uploads (static- получение GET запроса на статичный файл)
 
-app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register);
+app.post('/auth/login', cors(corsOptions), loginValidation, handleValidationErrors, UserController.login); 
 
-app.get('/auth/me', checkAuth, UserController.getMe);
+app.post('/auth/register', cors(corsOptions), registerValidation, handleValidationErrors, UserController.register);
 
-app.post('/upload', checkAuth,upload.single('image'),(req,res)=>{
+app.get('/auth/me', cors(corsOptions), checkAuth, UserController.getMe);
+
+app.post('/upload', cors(corsOptions), checkAuth,upload.single('image'),(req,res)=>{
     res.json({
         url:`/uploads/${req.file.originalname}`
     });
 });
 
-app.get('/tags', PostController.getLastTags);
-app.get('/posts', PostController.getAll);//получение всех статей
-app.get('/posts/tags', PostController.getLastTags);//получение тэгов
-app.get('/posts/:id', PostController.getOn);//получение одной статьи
-app.post('/posts', checkAuth, postCreatValidation, handleValidationErrors, PostController.create);// создать статью
-app.delete('/posts/:id', checkAuth, PostController.remove);//удалить статью
-app.patch('/posts/:id',checkAuth, postCreatValidation, handleValidationErrors, PostController.update);//обновить
+app.get('/tags',cors(corsOptions),  PostController.getLastTags);
+app.get('/posts', cors(corsOptions), PostController.getAll);//получение всех статей
+app.get('/posts/tags',cors(corsOptions),  PostController.getLastTags);//получение тэгов
+app.get('/posts/:id',cors(corsOptions),  PostController.getOn);//получение одной статьи
+app.post('/posts',cors(corsOptions),  checkAuth, postCreatValidation, handleValidationErrors, PostController.create);// создать статью
+app.delete('/posts/:id',cors(corsOptions),  checkAuth, PostController.remove);//удалить статью
+app.patch('/posts/:id',cors(corsOptions), checkAuth, postCreatValidation, handleValidationErrors, PostController.update);//обновить
 
 
 
