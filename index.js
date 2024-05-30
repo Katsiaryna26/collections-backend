@@ -36,6 +36,8 @@ const upload = multer({storage})
 
 app.use(express.json())//позволит читать файлы json
 app.use(cors(corsOptions))
+app.post(cors(corsOptions))
+app.get(cors(corsOptions))
 app.use('/uploads',express.static('uploads')) //если придет запрос на uploads, то ищи в папке uploads (static- получение GET запроса на статичный файл)
 
 app.post('/auth/login',  loginValidation, handleValidationErrors, UserController.login); 
