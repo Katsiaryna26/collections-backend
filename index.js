@@ -9,8 +9,8 @@ import {UserController, PostController}  from './controllers/index.js';
 import {handleValidationErrors, checkAuth} from './utils/index.js';
 
 const corsOptions = {
-    origin: 'https://collections-frontend-eight.vercel.app/register',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    origin: 'https://collections-frontend-eight.vercel.app',
+    
   }
 //подключаемся к БД, если подключились, то BD ok, иначе ('BD error',err)
 mongoose
