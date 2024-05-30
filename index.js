@@ -52,9 +52,9 @@ app.get('/tags', PostController.getLastTags);
 app.get('/posts', PostController.getAll);//получение всех статей
 app.get('/posts/tags', PostController.getLastTags);//получение тэгов
 app.get('/posts/:id', PostController.getOn);//получение одной статьи
-app.post('/posts', checkAuth, postCreatValidation, PostController.create);// создать статью
+app.post('/posts', checkAuth, postCreatValidation, handleValidationErrors, PostController.create);// создать статью
 app.delete('/posts/:id', checkAuth, PostController.remove);//удалить статью
-app.patch('/posts/:id',checkAuth, postCreatValidation, PostController.update);//обновить
+app.patch('/posts/:id',checkAuth, postCreatValidation, handleValidationErrors, PostController.update);//обновить
 
 
 

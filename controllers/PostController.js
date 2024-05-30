@@ -5,12 +5,12 @@ export const getLastTags = async(req,res)=>{
         const posts = await PostModel.find().limit(5).exec();
         
         const tags = posts.map((obj)=>obj.tags).flat().slice(0,5);
-        res.json(posts);
+        res.json(tags);
     }
     catch(err){
         console.log(err);
         res.status(500).json({
-            message:'Не удалось получить статьи'
+            message:'Не удалось получить тэги'
     })
   };
 }
@@ -31,11 +31,11 @@ export const getAll = async(req,res)=>{
 
 export const getOne = async(req,res)=>{
     try{
-        const postsId = req.params.id;
+        const postId = req.params.id;
 
         PostModel.findOneAndUpdate(//найди одну статью и обнови ее
             {
-                _id:postsId,// находим по параметру
+                _id:postId,// находим по параметру
             },
             {
                 $inc:{viewsCount:1}// что инкрементировать (увеличить ) и на сколько
@@ -69,11 +69,11 @@ export const getOne = async(req,res)=>{
 
 export const remove = async(req,res)=>{
     try{
-        const postsId = req.params.id;
+        const postId = req.params.id;
 
         PostModel.findOneAndDelete(//найди одну статью и удалить
             {
-                _id:postsId,// находим по параметру
+                _id:postId,// находим по параметру
             },
             (err,doc)=>{
                 if (err) {
@@ -83,7 +83,7 @@ export const remove = async(req,res)=>{
                 })
             }
             if (!doc){
-                return res.status(500).json({
+                return res.status(404).json({
                     message:'Статья не найдена'
             })
             }
@@ -103,11 +103,11 @@ export const remove = async(req,res)=>{
 
 export const update = async(req,res)=>{
     try{
-        const postsId = req.params.id;
+        const postId = req.params.id;
 
        await PostModel.updateOne(//обновить статью 
             {
-                _id:postsId,// находим по параметру
+                _id:postId,// находим по параметру
             },
             {
                 title: req.body.title,
