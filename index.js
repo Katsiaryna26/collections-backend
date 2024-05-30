@@ -12,7 +12,7 @@ import {handleValidationErrors, checkAuth} from './utils/index.js';
 
 //подключаемся к БД, если подключились, то BD ok, иначе ('BD error',err)
 mongoose
-    .connect(process.env.MONGODB_URL)// допишем users и тогда это означает, что мы подключаемся именно к бд users
+    .connect(process.env.MONGODB_URI)// допишем users и тогда это означает, что мы подключаемся именно к бд users
     .then(()=>console.log('BD ok'))
     .catch((err)=>console.log('BD error',err))
 
