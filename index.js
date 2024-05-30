@@ -8,8 +8,10 @@ import { registerValidation, loginValidation, postCreatValidation } from './vali
 import {UserController, PostController}  from './controllers/index.js';
 import {handleValidationErrors, checkAuth} from './utils/index.js';
 
-
-
+const corsOptions = {
+    origin: 'https://collections-frontend-eight.vercel.app/',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 //подключаемся к БД, если подключились, то BD ok, иначе ('BD error',err)
 mongoose
     .connect(process.env.MONGODB_URI)// допишем users и тогда это означает, что мы подключаемся именно к бд users
@@ -33,7 +35,7 @@ const storage = multer.diskStorage({//создаем хранилище для �
 const upload = multer({storage})
 
 app.use(express.json())//позволит читать файлы json
-app.use(cors())
+app.use(cors(corsOptions))
 app.use('/uploads',express.static('uploads')) //если придет запрос на uploads, то ищи в папке uploads (static- получение GET запроса на статичный файл)
 
 app.post('/auth/login',  loginValidation, handleValidationErrors, UserController.login); 
